@@ -23,28 +23,28 @@ export function useStats() {
     };
 
     // Current Week (starts Sunday)
-    const startOfCurrentWeek = startOfWeek(now, { weekStarts: 0 });
-    const endOfCurrentWeek = endOfWeek(now, { weekStarts: 0 });
+    const startOfCurrentWeek = startOfWeek(now, { weekStartsOn: 0 });
+    const endOfCurrentWeek = endOfWeek(now, { weekStartsOn: 0 });
     const currentWeekConsumos = getAlcoholInInterval(startOfCurrentWeek, endOfCurrentWeek);
-    const weeklyUnits = currentWeekConsumos.reduce((sum, c) => sum + c.unidades, 0);
+    const weeklyUnits = currentWeekConsumos.reduce((sum, c) => sum + (Number(c.unidades) || 0), 0);
 
     // Previous Week
     const startOfPrevWeek = subWeeks(startOfCurrentWeek, 1);
     const endOfPrevWeek = subWeeks(endOfCurrentWeek, 1);
     const prevWeekConsumos = getAlcoholInInterval(startOfPrevWeek, endOfPrevWeek);
-    const prevWeeklyUnits = prevWeekConsumos.reduce((sum, c) => sum + c.unidades, 0);
+    const prevWeeklyUnits = prevWeekConsumos.reduce((sum, c) => sum + (Number(c.unidades) || 0), 0);
 
     // Current Day
     const startOfToday = startOfDay(now);
     const endOfToday = endOfDay(now);
     const todayConsumos = getAlcoholInInterval(startOfToday, endOfToday);
-    const dailyUnits = todayConsumos.reduce((sum, c) => sum + c.unidades, 0);
+    const dailyUnits = todayConsumos.reduce((sum, c) => sum + (Number(c.unidades) || 0), 0);
 
     // Current Month
     const startOfCurrentMonth = startOfMonth(now);
     const endOfCurrentMonth = endOfMonth(now);
     const currentMonthConsumos = getAlcoholInInterval(startOfCurrentMonth, endOfCurrentMonth);
-    const monthlyUnits = currentMonthConsumos.reduce((sum, c) => sum + c.unidades, 0);
+    const monthlyUnits = currentMonthConsumos.reduce((sum, c) => sum + (Number(c.unidades) || 0), 0);
 
     // Daily Average (this week)
     const daysPassedThisWeek = now.getDay() + 1; // 0 = Sunday, so +1
@@ -52,7 +52,7 @@ export function useStats() {
 
     // Highest Consumption Day (this week)
     const unitsByDay = currentWeekConsumos.reduce((acc, c) => {
-      acc[c.fecha_formateada] = (acc[c.fecha_formateada] || 0) + c.unidades;
+      acc[c.fecha_formateada] = (acc[c.fecha_formateada] || 0) + (Number(c.unidades) || 0);
       return acc;
     }, {} as Record<string, number>);
     
@@ -68,7 +68,7 @@ export function useStats() {
     const barChartData = last7Days.map(date => {
       const formattedDate = format(date, 'yyyy-MM-dd');
       const dayConsumos = consumos.filter(c => c.fecha_formateada === formattedDate && c.tipo !== 'agua' && c.tipo !== 'mocktail');
-      const units = dayConsumos.reduce((sum, c) => sum + c.unidades, 0);
+      const units = dayConsumos.reduce((sum, c) => sum + (Number(c.unidades) || 0), 0);
       return {
         name: format(date, 'EEE'), // Mon, Tue...
         unidades: units,
@@ -78,7 +78,7 @@ export function useStats() {
 
     // Chart Data: Proportion by Type (all time or this month)
     const typeProportion = currentMonthConsumos.reduce((acc, c) => {
-      acc[c.tipo] = (acc[c.tipo] || 0) + c.unidades;
+      acc[c.tipo] = (acc[c.tipo] || 0) + (Number(c.unidades) || 0);
       return acc;
     }, {} as Record<string, number>);
 
@@ -97,10 +97,6 @@ export function useStats() {
       }
     }
 
-    // Savings (Mock: $5 per water/mocktail)
-    const healthyDrinks = consumos.filter(c => c.tipo === 'agua' || c.tipo === 'mocktail').length;
-    const savings = healthyDrinks * 5;
-
     return {
       weeklyUnits,
       prevWeeklyUnits,
@@ -111,7 +107,6 @@ export function useStats() {
       barChartData,
       pieChartData,
       mostConsumedType,
-      savings,
       metaSemanal,
       isOverLimit: weeklyUnits > metaSemanal,
       progressPercentage: Math.min(100, (weeklyUnits / metaSemanal) * 100)

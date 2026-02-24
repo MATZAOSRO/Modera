@@ -1,11 +1,11 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Consumo, DrinkType, Promocion } from '../types';
+import { Consumo, DrinkType, Promocion, Medida } from '../types';
 import { format } from 'date-fns';
 import toast from 'react-hot-toast';
 
 type AppContextType = {
   consumos: Consumo[];
-  addConsumo: (tipo: DrinkType, unidades: number, timestamp?: number) => void;
+  addConsumo: (tipo: DrinkType, cantidad: number, medida: Medida, unidades_calculadas: number, timestamp?: number) => void;
   removeConsumo: (id: string) => void;
   editConsumo: (id: string, updates: Partial<Consumo>) => void;
   promociones: Promocion[];
@@ -54,6 +54,14 @@ const defaultPromociones: Promocion[] = [
   }
 ];
 
+const tips = [
+  "Recuerda beber un vaso de agua por cada bebida alcohólica.",
+  "Come algo antes o mientras bebes para ralentizar la absorción.",
+  "Conoce tu límite y respétalo.",
+  "Bebe despacio, disfruta el sabor.",
+  "Evita mezclar diferentes tipos de alcohol."
+];
+
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
@@ -68,16 +76,24 @@ export function AppProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('modera_consumos', JSON.stringify(consumos));
   }, [consumos]);
 
-  const addConsumo = (tipo: DrinkType, unidades: number, timestamp: number = Date.now()) => {
+  const addConsumo = (tipo: DrinkType, cantidad: number, medida: Medida, unidades_calculadas: number, timestamp: number = Date.now()) => {
     const newConsumo: Consumo = {
       id: Date.now().toString(),
       tipo,
-      unidades,
+      cantidad,
+      medida,
+      unidades_calculadas,
       timestamp,
       fecha_formateada: format(timestamp, 'yyyy-MM-dd')
     };
     setConsumos(prev => [...prev, newConsumo]);
-    toast.success(`Registrado: ${unidades} unidad(es) de ${tipo}`);
+    
+    if (tipo !== 'agua' && tipo !== 'mocktail') {
+      const randomTip = tips[Math.floor(Math.random() * tips.length)];
+      toast.success(`Registrado. Tip: ${randomTip}`, { duration: 5000 });
+    } else {
+      toast.success(`Registrado: ${cantidad} ${medida} de ${tipo}`);
+    }
   };
 
   const removeConsumo = (id: string) => {

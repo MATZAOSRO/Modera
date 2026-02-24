@@ -4,12 +4,16 @@ import { Save, User, Target } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export function Settings() {
-  const { user, updateMeta } = useAuth();
+  const { user, updateMeta, updateName } = useAuth();
   const [meta, setMeta] = useState(user?.meta_semanal || 10);
+  const [name, setName] = useState(user?.nombre || '');
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     updateMeta(meta);
+    if (name.trim()) {
+      updateName(name.trim());
+    }
     toast.success('Configuración guardada correctamente');
   };
 
@@ -29,16 +33,16 @@ export function Settings() {
             {/* Profile Section */}
             <section className="space-y-4">
               <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-2">
-                <User size={20} className="text-teal-600" /> Perfil
+                <User size={20} className="text-brand-600" /> Perfil
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Nombre</label>
                   <input 
                     type="text" 
-                    value={user?.nombre || ''} 
-                    disabled 
-                    className="w-full bg-slate-100 border border-slate-200 rounded-lg px-3 py-2 text-slate-500 cursor-not-allowed"
+                    value={name} 
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:ring-2 focus:ring-brand-500 outline-none"
                   />
                 </div>
                 <div>
@@ -56,7 +60,7 @@ export function Settings() {
             {/* Goals Section */}
             <section className="space-y-4 pt-4">
               <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-2">
-                <Target size={20} className="text-teal-600" /> Metas
+                <Target size={20} className="text-brand-600" /> Metas
               </h2>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Meta Semanal (Unidades)</label>
@@ -67,7 +71,7 @@ export function Settings() {
                     step="1"
                     value={meta}
                     onChange={(e) => setMeta(parseInt(e.target.value) || 0)}
-                    className="w-32 bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:ring-2 focus:ring-teal-500 outline-none"
+                    className="w-32 bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:ring-2 focus:ring-brand-500 outline-none"
                   />
                   <span className="text-sm text-slate-500">
                     Unidades máximas recomendadas por semana.
@@ -79,7 +83,7 @@ export function Settings() {
             <div className="pt-6 flex justify-end">
               <button 
                 type="submit"
-                className="flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-medium py-2 px-6 rounded-lg transition-colors shadow-sm"
+                className="flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-medium py-2 px-6 rounded-lg transition-colors shadow-sm"
               >
                 <Save size={18} /> Guardar Cambios
               </button>

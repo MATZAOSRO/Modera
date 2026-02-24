@@ -17,7 +17,7 @@ export function Promotions() {
     <main className="flex-1 overflow-y-auto bg-slate-50 p-6 md:p-10">
       <div className="mx-auto max-w-6xl space-y-8">
         <header className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 text-teal-600 text-sm font-medium mb-1">
+          <div className="flex items-center gap-2 text-brand-600 text-sm font-medium mb-1">
             <Gift size={18} />
             <span>Beneficios Exclusivos</span>
           </div>
@@ -43,7 +43,7 @@ export function Promotions() {
                   <Tag size={12} /> {offer.marca}
                 </div>
                 {offer.tipo_bebida === mostConsumedType && (
-                  <div className="absolute top-3 right-3 bg-teal-500 text-white px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
+                  <div className="absolute top-3 right-3 bg-brand-500 text-white px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
                     Recomendado
                   </div>
                 )}
@@ -55,7 +55,7 @@ export function Promotions() {
                 <div className="mt-auto">
                   <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 flex justify-between items-center mb-3">
                     <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Código</span>
-                    <span className="font-mono font-bold text-teal-600">{offer.codigo}</span>
+                    <span className="font-mono font-bold text-brand-600">{offer.codigo}</span>
                   </div>
                   <button className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-medium py-2.5 rounded-lg transition-colors text-sm">
                     Canjear Oferta <ExternalLink size={16} />

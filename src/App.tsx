@@ -4,7 +4,6 @@ import { Dashboard } from './pages/Dashboard';
 import { Analytics } from './pages/Analytics';
 import { History } from './pages/History';
 import { Promotions } from './pages/Promotions';
-import { Chatbot } from './pages/Chatbot';
 import { Settings } from './pages/Settings';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
@@ -30,7 +29,6 @@ export default function App() {
             <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
             <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
             <Route path="/promotions" element={<ProtectedRoute><Promotions /></ProtectedRoute>} />
-            <Route path="/chat" element={<ProtectedRoute><Chatbot /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           </Routes>
         </Router>

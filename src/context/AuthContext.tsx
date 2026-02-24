@@ -6,6 +6,7 @@ type AuthContextType = {
   login: (email: string, nombre: string) => void;
   logout: () => void;
   updateMeta: (meta: number) => void;
+  updateName: (name: string) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -45,8 +46,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const updateName = (name: string) => {
+    if (user) {
+      setUser({ ...user, nombre: name });
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, updateMeta }}>
+    <AuthContext.Provider value={{ user, login, logout, updateMeta, updateName }}>
       {children}
     </AuthContext.Provider>
   );

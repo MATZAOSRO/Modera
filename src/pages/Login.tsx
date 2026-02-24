@@ -6,13 +6,15 @@ import { Droplets } from 'lucide-react';
 export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [nombre, setNombre] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email.trim() || !password.trim() || !nombre.trim()) return;
     // Simulate auth
-    login(email, email.split('@')[0] || 'Usuario');
+    login(email, nombre.trim());
     navigate('/');
   };
 
@@ -20,7 +22,7 @@ export function Login() {
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white shadow-lg shadow-emerald-900/20">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-rose-600 text-white shadow-lg shadow-rose-900/20">
             <Droplets size={28} />
           </div>
         </div>
@@ -29,7 +31,7 @@ export function Login() {
         </h2>
         <p className="mt-2 text-center text-sm text-slate-600">
           O{' '}
-          <Link to="/register" className="font-medium text-teal-600 hover:text-teal-500">
+          <Link to="/register" className="font-medium text-brand-600 hover:text-brand-500">
             regístrate para comenzar
           </Link>
         </p>
@@ -38,6 +40,23 @@ export function Login() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-slate-200">
           <form className="space-y-6" onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="nombre" className="block text-sm font-medium text-slate-700">
+                Nombre de usuario
+              </label>
+              <div className="mt-1">
+                <input
+                  id="nombre"
+                  name="nombre"
+                  type="text"
+                  required
+                  value={nombre}
+                  onChange={(e) => setNombre(e.target.value)}
+                  className="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
+                />
+              </div>
+            </div>
+
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-slate-700">
                 Correo electrónico
@@ -51,7 +70,7 @@ export function Login() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                 />
               </div>
             </div>
@@ -69,7 +88,7 @@ export function Login() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                 />
               </div>
             </div>
@@ -77,7 +96,7 @@ export function Login() {
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors"
               >
                 Iniciar sesión
               </button>

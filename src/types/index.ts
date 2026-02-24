@@ -6,7 +6,7 @@ export type User = {
   fecha_registro: number;
 };
 
-export type DrinkType = 'cerveza' | 'vino' | 'coctel' | 'destilado' | 'agua' | 'mocktail';
+export type DrinkType = 'cerveza' | 'vino' | 'coctel' | 'destilado' | 'sidra' | 'licor' | 'fernet' | 'vermut' | 'agua' | 'mocktail';
 
 export type Consumo = {
   id: string;

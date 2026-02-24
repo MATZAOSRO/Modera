@@ -19,7 +19,9 @@ export function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const remainingUnits = Math.max(0, stats.metaSemanal - stats.weeklyUnits);
-  const progressOffset = 251.2 - (251.2 * Math.min(stats.weeklyUnits, stats.metaSemanal)) / stats.metaSemanal;
+  const progressOffset = stats.metaSemanal > 0 
+    ? 251.2 - (251.2 * Math.min(stats.weeklyUnits, stats.metaSemanal)) / stats.metaSemanal
+    : 251.2;
   const isOverLimit = stats.isOverLimit;
 
   return (
@@ -45,7 +47,7 @@ export function Dashboard() {
             </Link>
             <button 
               onClick={() => setIsModalOpen(true)}
-              className="flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow-sm shadow-teal-500/20 hover:bg-teal-700 transition-colors"
+              className="flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm shadow-brand-500/20 hover:bg-brand-700 transition-colors"
             >
               <Plus size={18} />
               <span>Registrar Bebida</span>
@@ -61,25 +63,7 @@ export function Dashboard() {
             {/* Impact Monitor */}
             <section>
               <h3 className="mb-4 px-1 font-display text-xl font-bold text-slate-900">Impacto en tu Bienestar</h3>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6">
-                  <div className="relative z-10 flex flex-col justify-between h-full gap-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
-                        <PiggyBank size={20} />
-                      </div>
-                      <p className="text-sm font-medium text-slate-500">Ahorro Estimado</p>
-                    </div>
-                    <div>
-                      <p className="font-display text-4xl font-bold tracking-tight text-slate-900">${stats.savings.toFixed(2)}</p>
-                      <p className="mt-1 text-sm text-emerald-600">
-                        <span className="font-bold">Por elegir alternativas</span> sin alcohol
-                      </p>
-                    </div>
-                  </div>
-                  <div className="absolute -right-6 -top-6 h-32 w-32 rounded-full bg-emerald-500/5 blur-2xl"></div>
-                </div>
-
+              <div className="grid grid-cols-1 gap-4">
                 <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6">
                   <div className="relative z-10 flex flex-col justify-between h-full gap-4">
                     <div className="flex items-center gap-3">
@@ -90,7 +74,7 @@ export function Dashboard() {
                     </div>
                     <div>
                       <div className="flex items-end gap-2">
-                        <p className="font-display text-4xl font-bold tracking-tight text-slate-900">{stats.dailyAverage.toFixed(1)}</p>
+                        <p className="font-display text-4xl font-bold tracking-tight text-slate-900">{isNaN(stats.dailyAverage) ? '0.0' : stats.dailyAverage.toFixed(1)}</p>
                         <p className="mb-1 text-sm font-medium text-slate-500">Unidades</p>
                       </div>
                       <p className="mt-1 text-sm text-slate-500">
@@ -140,7 +124,7 @@ export function Dashboard() {
                 <div className="relative flex h-64 w-64 items-center justify-center">
                   <svg className="h-full w-full rotate-[-90deg]" viewBox="0 0 100 100">
                     <circle className="text-slate-100" cx="50" cy="50" fill="transparent" r="40" stroke="currentColor" strokeWidth="8"></circle>
-                    <circle className={isOverLimit ? "text-rose-500" : "text-teal-500"} cx="50" cy="50" fill="transparent" r="40" stroke="currentColor" strokeDasharray="251.2" strokeDashoffset={progressOffset} strokeLinecap="round" strokeWidth="8" style={{ transition: 'stroke-dashoffset 0.5s ease' }}></circle>
+                    <circle className={isOverLimit ? "text-rose-500" : "text-brand-500"} cx="50" cy="50" fill="transparent" r="40" stroke="currentColor" strokeDasharray="251.2" strokeDashoffset={progressOffset} strokeLinecap="round" strokeWidth="8" style={{ transition: 'stroke-dashoffset 0.5s ease' }}></circle>
                   </svg>
                   <div className="absolute flex flex-col items-center text-center">
                     <span className={`text-4xl font-black ${isOverLimit ? 'text-rose-600' : 'text-slate-900'}`}>{stats.weeklyUnits}</span>
@@ -171,7 +155,7 @@ export function Dashboard() {
                   Ver Promociones <ArrowRight size={16} />
                 </Link>
               </div>
-              <div className="absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-teal-500/20 blur-3xl"></div>
+              <div className="absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-brand-500/20 blur-3xl"></div>
             </div>
           </div>
         </div>

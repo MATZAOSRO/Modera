@@ -5,7 +5,7 @@ import { Send, Bot, User, Loader2, MessageSquare, X } from 'lucide-react';
 import { useStats } from '../hooks/useStats';
 import { useAppContext } from '../context/AppContext';
 
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 type Message = {
   role: 'user' | 'model';

@@ -52,7 +52,7 @@ export function History() {
               placeholder="Buscar por tipo..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none"
+              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none"
             />
           </div>
           <div className="flex items-center gap-2">
@@ -60,13 +60,17 @@ export function History() {
             <select 
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 outline-none capitalize"
+              className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-500 outline-none capitalize"
             >
               <option value="todos">Todos los tipos</option>
               <option value="cerveza">Cerveza</option>
               <option value="vino">Vino</option>
               <option value="coctel">Cóctel</option>
               <option value="destilado">Destilado</option>
+              <option value="sidra">Sidra</option>
+              <option value="licor">Licor</option>
+              <option value="fernet">Fernet</option>
+              <option value="vermut">Vermut</option>
               <option value="agua">Agua</option>
               <option value="mocktail">Mocktail</option>
             </select>
@@ -95,7 +99,7 @@ export function History() {
                       <li key={item.id} className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
                         <div className="flex items-center gap-4">
                           <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${
-                            item.tipo === 'agua' || item.tipo === 'mocktail' ? 'bg-sky-100 text-sky-600' : 'bg-teal-100 text-teal-600'
+                            item.tipo === 'agua' || item.tipo === 'mocktail' ? 'bg-sky-100 text-sky-600' : 'bg-brand-100 text-brand-600'
                           }`}>
                             {item.unidades}u
                           </div>
